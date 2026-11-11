@@ -4,4 +4,5 @@ import ar.edu.unnoba.pm2026.courses.model.Instructor;
 
 public interface InstructorService {
     public void create(Instructor instructor) throws Exception;
+    public Instructor findByEmail(String email);
 }

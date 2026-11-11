@@ -3,10 +3,11 @@ package ar.edu.unnoba.pm2026.courses.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-
+@Component
 public class JwtTokenUtil {
     private final Algorithm algorithm = Algorithm.HMAC512("tu_clave_secreta");
 

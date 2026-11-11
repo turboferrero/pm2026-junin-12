@@ -16,11 +16,16 @@ public class InstructorServiceImp implements InstructorService {
     }
     @Override
     public void create(Instructor instructor) throws Exception {
-        Instructor existente=instructorRepository.findByEmail(instructor.getEmail());
+        Instructor existente=findByEmail(instructor.getEmail());
         if(existente!=null){
             throw new Exception("El email ya existe en el sistema");
         }
         instructor.setContrasenia(passwordEncoder.encode(instructor.getContrasenia()));
         instructorRepository.save(instructor);
+    }
+
+    @Override
+    public Instructor findByEmail(String email) {
+        return instructorRepository.findByEmail(email);
     }
 }
