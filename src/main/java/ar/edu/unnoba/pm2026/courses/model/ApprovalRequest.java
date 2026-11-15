@@ -15,6 +15,7 @@ public class ApprovalRequest {
     @Temporal(TemporalType.DATE)
     private Date fechaSolicitud;
 
+
     @Column(name = "fecha_resolucion")
     @Temporal(TemporalType.DATE)
     private Date fechaResolucion;
@@ -29,16 +30,21 @@ public class ApprovalRequest {
     @Column(nullable = false)
     private Estado estado;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "idcurso", nullable = false)
+    private Curso curso;
+
     public ApprovalRequest() {
     }
 
-    public ApprovalRequest(Date fechaSolicitud, Date fechaResolucion, String comentarioInstructor,
-                           String comentarioAdmin, Estado estado) {
-        this.fechaSolicitud = fechaSolicitud;
-        this.fechaResolucion = fechaResolucion;
+    public ApprovalRequest(long id, Curso curso, String comentarioInstructor, Estado estado, String comentarioAdmin, Date fechaResolucion, Date fechaSolicitud) {
+        this.id = id;
+        this.curso = curso;
         this.comentarioInstructor = comentarioInstructor;
-        this.comentarioAdmin = comentarioAdmin;
         this.estado = estado;
+        this.comentarioAdmin = comentarioAdmin;
+        this.fechaResolucion = fechaResolucion;
+        this.fechaSolicitud = fechaSolicitud;
     }
 
     public long getId() { return id; }
@@ -55,6 +61,14 @@ public class ApprovalRequest {
 
     public String getComentarioAdmin() { return comentarioAdmin; }
     public void setComentarioAdmin(String comentarioAdmin) { this.comentarioAdmin = comentarioAdmin; }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
 
     public Estado getEstado() { return estado; }
     public void setEstado(Estado estado) { this.estado = estado; }

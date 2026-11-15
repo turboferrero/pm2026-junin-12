@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "curso")
 public class Curso {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcurso")
@@ -31,9 +32,8 @@ public class Curso {
     @Column(name = "cupo_maximo_alumnos")
     private int cupoMaximoAlumnos;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "idcurso", nullable = false)
-    private List<ApprovalRequest> solicitudesAprovacion = new ArrayList<>();
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ApprovalRequest> solicitudesAprobacion = new ArrayList<>();
 
     @Convert(converter = EstadoCursoConverter.class)
     @Column(name = "estado", nullable = false)
@@ -46,8 +46,8 @@ public class Curso {
     @Enumerated(EnumType.STRING)
     private Especialidades especialidad;
 
-    @ManyToMany(mappedBy = "cursos")
-    private List<Estudiante> estudiantes = new ArrayList<>();
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrollment> inscripciones = new ArrayList<>();
 
     public Curso() {
         this.estadoCurso = new Borrador(this);
@@ -55,7 +55,7 @@ public class Curso {
 
     public Curso(String titulo, String descripcion, Date fechaInicio, BigDecimal precioBase,
                  Date fechaCierre, int cupoMaximoAlumnos,
-                 List<ApprovalRequest> solicitudesAprovacion, EstadoCurso estadoCurso,
+                 List<ApprovalRequest> solicitudesAprobacion, EstadoCurso estadoCurso,
                  Instructor creador, Especialidades especialidad) {
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -63,18 +63,38 @@ public class Curso {
         this.precioBase = precioBase;
         this.fechaCierre = fechaCierre;
         this.cupoMaximoAlumnos = cupoMaximoAlumnos;
-        this.solicitudesAprovacion = solicitudesAprovacion;
-        this.estadoCurso = estadoCurso;
+        this.solicitudesAprobacion = solicitudesAprobacion;
+        setEstadoCurso(estadoCurso);
         this.creador = creador;
         this.especialidad = especialidad;
     }
 
     @PostLoad
     private void vincularEstado() {
-        if (estadoCurso != null) {
-            estadoCurso.setCurso(this);
+        if (this.estadoCurso != null) {
+            this.estadoCurso.setCurso(this);
         }
     }
+    public void solicitarAprobacion() {
+        this.estadoCurso.solicitarAprobacion();
+    }
+
+    public void aprobar() {
+        this.estadoCurso.aprobar();
+    }
+
+    public void rechazar() {
+        this.estadoCurso.rechazar();
+    }
+
+    public boolean puedeEditarseOEliminarsePorInstructor() {
+        return this.estadoCurso.puedeEditarseOEliminarsePorInstructor();
+    }
+
+    public boolean permiteInscripciones() {
+        return this.estadoCurso.permiteInscripciones();
+    }
+
 
     public long getId() {
         return id;
@@ -132,12 +152,12 @@ public class Curso {
         this.cupoMaximoAlumnos = cupoMaximoAlumnos;
     }
 
-    public List<ApprovalRequest> getSolicitudesAprovacion() {
-        return solicitudesAprovacion;
+    public List<ApprovalRequest> getSolicitudesAprobacion() {
+        return solicitudesAprobacion;
     }
 
-    public void setSolicitudesAprovacion(List<ApprovalRequest> solicitudesAprovacion) {
-        this.solicitudesAprovacion = solicitudesAprovacion;
+    public void setSolicitudesAprobacion(List<ApprovalRequest> solicitudesAprobacion) {
+        this.solicitudesAprobacion = solicitudesAprobacion;
     }
 
     public EstadoCurso getEstadoCurso() {
@@ -146,6 +166,9 @@ public class Curso {
 
     public void setEstadoCurso(EstadoCurso estadoCurso) {
         this.estadoCurso = estadoCurso;
+        if (this.estadoCurso != null) {
+            this.estadoCurso.setCurso(this);
+        }
     }
 
     public Instructor getCreador() {
@@ -164,11 +187,11 @@ public class Curso {
         this.especialidad = especialidad;
     }
 
-    public List<Estudiante> getEstudiantes() {
-        return estudiantes;
+    public List<Enrollment> getInscripciones() {
+        return inscripciones;
     }
 
-    public void setEstudiantes(List<Estudiante> estudiantes) {
-        this.estudiantes = estudiantes;
+    public void setInscripciones(List<Enrollment> inscripciones) {
+        this.inscripciones = inscripciones;
     }
 }

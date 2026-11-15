@@ -1,4 +1,5 @@
 package ar.edu.unnoba.pm2026.courses.model;
+
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
@@ -10,30 +11,32 @@ public class Estudiante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idestudiante")
     private long id;
+
     private String nombre;
     private String apellido;
+
     @Column(unique = true, nullable = false)
     private String dni;
-    @Column(unique = true,nullable = false)
+
+    @Column(unique = true, nullable = false)
     private String email;
-    @Column(name="contrasena",nullable = false)
+
+    @Column(name = "contrasena", nullable = false)
     private String contrasenia;
-    @ManyToMany
-    @JoinTable(name = "estudiante_curso",
-    joinColumns = @JoinColumn(name = "estudianteid"),
-    inverseJoinColumns = @JoinColumn(name = "cursoid"))
-    private List<Curso> cursos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrollment> inscripciones = new ArrayList<>();
 
     public Estudiante() {
     }
 
-    public Estudiante(String nombre, String apellido, String dni, String email, String contrasenia, List<Curso> cursos) {
+    public Estudiante(String nombre, String apellido, String dni, String email, String contrasenia, List<Enrollment> inscripciones) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;
         this.email = email;
         this.contrasenia = contrasenia;
-        this.cursos = cursos;
+        this.inscripciones = inscripciones;
     }
 
     public long getId() {
@@ -76,12 +79,12 @@ public class Estudiante {
         this.email = email;
     }
 
-    public List<Curso> getCursos() {
-        return cursos;
+    public List<Enrollment> getInscripciones() {
+        return inscripciones;
     }
 
-    public void setCursos(List<Curso> cursos) {
-        this.cursos = cursos;
+    public void setInscripciones(List<Enrollment> inscripciones) {
+        this.inscripciones = inscripciones;
     }
 
     public String getContrasenia() {
