@@ -44,11 +44,12 @@ public class InstructorResource {
     }
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateInstructorRequestDTO dto) {
-        Instructor instructor = modelMapper.map(dto, Instructor.class);
+        Instructor instructor = new Instructor();
+        instructor.setEmail(dto.email());
         instructor.setContrasenia(dto.password());
+
         try {
             instructorService.create(instructor);
-
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
