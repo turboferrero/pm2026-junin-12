@@ -1,17 +1,17 @@
 package ar.edu.unnoba.pm2026.courses.model;
 
-public class Borrador extends EstadoCurso {
+public class Draft extends CourseState {
 
-    public Borrador() {
+    public Draft() {
     }
 
-    public Borrador(Curso curso) {
-        super(curso);
+    public Draft(Course course) {
+        super(course);
     }
 
     @Override
     public void solicitarAprobacion() {
-        curso.setEstadoCurso(new PendAprobacion(curso));
+        course.setEstadoCurso(new PendingApproval(course));
     }
 
     @Override

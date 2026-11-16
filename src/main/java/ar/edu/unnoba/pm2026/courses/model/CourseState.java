@@ -1,17 +1,17 @@
 package ar.edu.unnoba.pm2026.courses.model;
 
-public abstract class EstadoCurso {
-    protected Curso curso;
+public abstract class CourseState {
+    protected Course course;
 
-    public EstadoCurso() {
+    public CourseState() {
     }
 
-    public EstadoCurso(Curso curso) {
-        this.curso = curso;
+    public CourseState(Course course) {
+        this.course = course;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCurso(Course course) {
+        this.course = course;
     }
 
     public void solicitarAprobacion() {

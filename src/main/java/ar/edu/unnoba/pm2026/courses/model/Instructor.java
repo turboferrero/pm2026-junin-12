@@ -24,10 +24,10 @@ public class Instructor {
             joinColumns = @JoinColumn(name = "idinstructor"))
     @Column(name = "especialidad")
     @Enumerated(EnumType.STRING)
-    private List<Especialidades> especialidades = new ArrayList<>();
+    private List<Speciality> especialidades = new ArrayList<>();
 
     @OneToMany(mappedBy = "creador")
-    private List<Curso> cursos = new ArrayList<>();
+    private List<Course> courses = new ArrayList<>();
 
     public Instructor() {
     }
@@ -39,7 +39,7 @@ public class Instructor {
         this.contrasenia = contrasenia;
     }
 
-    public void agregarEspecialidad(Especialidades especialidad) {
+    public void agregarEspecialidad(Speciality especialidad) {
         if (!especialidades.contains(especialidad)) {
             especialidades.add(especialidad);
         }
@@ -53,20 +53,20 @@ public class Instructor {
         this.id = id;
     }
 
-    public List<Especialidades> getEspecialidades() {
+    public List<Speciality> getEspecialidades() {
         return especialidades;
     }
 
-    public void setEspecialidades(List<Especialidades> especialidades) {
+    public void setEspecialidades(List<Speciality> especialidades) {
         this.especialidades = especialidades;
     }
 
-    public List<Curso> getCursos() {
-        return cursos;
+    public List<Course> getCursos() {
+        return courses;
     }
 
-    public void setCursos(List<Curso> cursos) {
-        this.cursos = cursos;
+    public void setCursos(List<Course> courses) {
+        this.courses = courses;
     }
 
     public String getNombre() {

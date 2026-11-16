@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "curso")
-public class Curso {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,28 +35,28 @@ public class Curso {
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ApprovalRequest> solicitudesAprobacion = new ArrayList<>();
 
-    @Convert(converter = EstadoCursoConverter.class)
+    @Convert(converter = CourseStateConverter.class)
     @Column(name = "estado", nullable = false)
-    private EstadoCurso estadoCurso;
+    private CourseState courseState;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idinstructor")
     private Instructor creador;
 
     @Enumerated(EnumType.STRING)
-    private Especialidades especialidad;
+    private Speciality especialidad;
 
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> inscripciones = new ArrayList<>();
 
-    public Curso() {
-        this.estadoCurso = new Borrador(this);
+    public Course() {
+        this.courseState = new Draft(this);
     }
 
-    public Curso(String titulo, String descripcion, Date fechaInicio, BigDecimal precioBase,
-                 Date fechaCierre, int cupoMaximoAlumnos,
-                 List<ApprovalRequest> solicitudesAprobacion, EstadoCurso estadoCurso,
-                 Instructor creador, Especialidades especialidad) {
+    public Course(String titulo, String descripcion, Date fechaInicio, BigDecimal precioBase,
+                  Date fechaCierre, int cupoMaximoAlumnos,
+                  List<ApprovalRequest> solicitudesAprobacion, CourseState courseState,
+                  Instructor creador, Speciality especialidad) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
@@ -64,35 +64,35 @@ public class Curso {
         this.fechaCierre = fechaCierre;
         this.cupoMaximoAlumnos = cupoMaximoAlumnos;
         this.solicitudesAprobacion = solicitudesAprobacion;
-        setEstadoCurso(estadoCurso);
+        setEstadoCurso(courseState);
         this.creador = creador;
         this.especialidad = especialidad;
     }
 
     @PostLoad
     private void vincularEstado() {
-        if (this.estadoCurso != null) {
-            this.estadoCurso.setCurso(this);
+        if (this.courseState != null) {
+            this.courseState.setCurso(this);
         }
     }
     public void solicitarAprobacion() {
-        this.estadoCurso.solicitarAprobacion();
+        this.courseState.solicitarAprobacion();
     }
 
     public void aprobar() {
-        this.estadoCurso.aprobar();
+        this.courseState.aprobar();
     }
 
     public void rechazar() {
-        this.estadoCurso.rechazar();
+        this.courseState.rechazar();
     }
 
     public boolean puedeEditarseOEliminarsePorInstructor() {
-        return this.estadoCurso.puedeEditarseOEliminarsePorInstructor();
+        return this.courseState.puedeEditarseOEliminarsePorInstructor();
     }
 
     public boolean permiteInscripciones() {
-        return this.estadoCurso.permiteInscripciones();
+        return this.courseState.permiteInscripciones();
     }
 
 
@@ -160,14 +160,14 @@ public class Curso {
         this.solicitudesAprobacion = solicitudesAprobacion;
     }
 
-    public EstadoCurso getEstadoCurso() {
-        return estadoCurso;
+    public CourseState getEstadoCurso() {
+        return courseState;
     }
 
-    public void setEstadoCurso(EstadoCurso estadoCurso) {
-        this.estadoCurso = estadoCurso;
-        if (this.estadoCurso != null) {
-            this.estadoCurso.setCurso(this);
+    public void setEstadoCurso(CourseState courseState) {
+        this.courseState = courseState;
+        if (this.courseState != null) {
+            this.courseState.setCurso(this);
         }
     }
 
@@ -179,11 +179,11 @@ public class Curso {
         this.creador = creador;
     }
 
-    public Especialidades getEspecialidad() {
+    public Speciality getEspecialidad() {
         return especialidad;
     }
 
-    public void setEspecialidad(Especialidades especialidad) {
+    public void setEspecialidad(Speciality especialidad) {
         this.especialidad = especialidad;
     }
 

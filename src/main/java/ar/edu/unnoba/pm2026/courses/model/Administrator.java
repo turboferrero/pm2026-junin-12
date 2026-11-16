@@ -2,7 +2,7 @@ package ar.edu.unnoba.pm2026.courses.model;
 import jakarta.persistence.*;
 @Entity
 @Table(name="administrador")
-public class Administrador {
+public class Administrator {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idadministrador")
@@ -15,10 +15,10 @@ public class Administrador {
     @Column(name="contrasena", nullable=false)
     private String contrasenia;
 
-    public Administrador() {
+    public Administrator() {
     }
 
-    public Administrador(String apellido, String nombre, String email, String contrasenia) {
+    public Administrator(String apellido, String nombre, String email, String contrasenia) {
         this.apellido = apellido;
         this.nombre = nombre;
         this.email = email;

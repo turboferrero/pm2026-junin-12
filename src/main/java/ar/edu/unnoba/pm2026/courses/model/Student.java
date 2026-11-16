@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "estudiante")
-public class Estudiante {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idestudiante")
@@ -27,10 +27,10 @@ public class Estudiante {
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> inscripciones = new ArrayList<>();
 
-    public Estudiante() {
+    public Student() {
     }
 
-    public Estudiante(String nombre, String apellido, String dni, String email, String contrasenia, List<Enrollment> inscripciones) {
+    public Student(String nombre, String apellido, String dni, String email, String contrasenia, List<Enrollment> inscripciones) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.dni = dni;

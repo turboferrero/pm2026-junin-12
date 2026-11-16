@@ -28,20 +28,20 @@ public class ApprovalRequest {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Estado estado;
+    private State state;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idcurso", nullable = false)
-    private Curso curso;
+    private Course course;
 
     public ApprovalRequest() {
     }
 
-    public ApprovalRequest(long id, Curso curso, String comentarioInstructor, Estado estado, String comentarioAdmin, Date fechaResolucion, Date fechaSolicitud) {
+    public ApprovalRequest(long id, Course course, String comentarioInstructor, State state, String comentarioAdmin, Date fechaResolucion, Date fechaSolicitud) {
         this.id = id;
-        this.curso = curso;
+        this.course = course;
         this.comentarioInstructor = comentarioInstructor;
-        this.estado = estado;
+        this.state = state;
         this.comentarioAdmin = comentarioAdmin;
         this.fechaResolucion = fechaResolucion;
         this.fechaSolicitud = fechaSolicitud;
@@ -62,14 +62,14 @@ public class ApprovalRequest {
     public String getComentarioAdmin() { return comentarioAdmin; }
     public void setComentarioAdmin(String comentarioAdmin) { this.comentarioAdmin = comentarioAdmin; }
 
-    public Curso getCurso() {
-        return curso;
+    public Course getCurso() {
+        return course;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCurso(Course course) {
+        this.course = course;
     }
 
-    public Estado getEstado() { return estado; }
-    public void setEstado(Estado estado) { this.estado = estado; }
+    public State getEstado() { return state; }
+    public void setEstado(State state) { this.state = state; }
 }

@@ -18,11 +18,11 @@ public class Enrollment {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idestudiante", nullable = false)
-    private Estudiante estudiante;
+    private Student student;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idcurso", nullable = false)
-    private Curso curso;
+    private Course course;
 
     @Column(name = "fecha_inscripcion", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -34,9 +34,9 @@ public class Enrollment {
     public Enrollment() {
     }
 
-    public Enrollment(Estudiante estudiante, Curso curso, Date fechaInscripcion, BigDecimal precioFinal) {
-        this.estudiante = estudiante;
-        this.curso = curso;
+    public Enrollment(Student student, Course course, Date fechaInscripcion, BigDecimal precioFinal) {
+        this.student = student;
+        this.course = course;
         this.fechaInscripcion = fechaInscripcion;
         this.precioFinal = precioFinal;
     }
@@ -44,11 +44,11 @@ public class Enrollment {
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
-    public Estudiante getEstudiante() { return estudiante; }
-    public void setEstudiante(Estudiante estudiante) { this.estudiante = estudiante; }
+    public Student getEstudiante() { return student; }
+    public void setEstudiante(Student student) { this.student = student; }
 
-    public Curso getCurso() { return curso; }
-    public void setCurso(Curso curso) { this.curso = curso; }
+    public Course getCurso() { return course; }
+    public void setCurso(Course course) { this.course = course; }
 
     public Date getFechaInscripcion() { return fechaInscripcion; }
     public void setFechaInscripcion(Date fechaInscripcion) { this.fechaInscripcion = fechaInscripcion; }

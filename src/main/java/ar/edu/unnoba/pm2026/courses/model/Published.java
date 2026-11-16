@@ -1,12 +1,12 @@
 package ar.edu.unnoba.pm2026.courses.model;
 
-public class Publicado extends EstadoCurso {
+public class Published extends CourseState {
 
-    public Publicado() {
+    public Published() {
     }
 
-    public Publicado(Curso curso) {
-        super(curso);
+    public Published(Course course) {
+        super(course);
     }
 
     @Override

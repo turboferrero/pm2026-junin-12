@@ -4,21 +4,21 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter
-public class EstadoCursoConverter implements AttributeConverter<EstadoCurso, String> {
+public class CourseStateConverter implements AttributeConverter<CourseState, String> {
 
     // De Java a la base: objeto -> texto
     @Override
-    public String convertToDatabaseColumn(EstadoCurso estado) {
+    public String convertToDatabaseColumn(CourseState estado) {
         if (estado == null) {
             return null;
         }
-        if (estado instanceof Borrador) {
+        if (estado instanceof Draft) {
             return "BORRADOR";
         }
-        if (estado instanceof PendAprobacion) {
+        if (estado instanceof PendingApproval) {
             return "PEND_APROBACION";
         }
-        if (estado instanceof Publicado) {
+        if (estado instanceof Published) {
             return "PUBLICADO";
         }
         throw new IllegalArgumentException("Estado desconocido: " + estado.getClass().getName());
@@ -26,17 +26,17 @@ public class EstadoCursoConverter implements AttributeConverter<EstadoCurso, Str
 
     // De la base a Java: texto -> objeto
     @Override
-    public EstadoCurso convertToEntityAttribute(String valor) {
+    public CourseState convertToEntityAttribute(String valor) {
         if (valor == null) {
             return null;
         }
         switch (valor) {
             case "BORRADOR":
-                return new Borrador();
+                return new Draft();
             case "PEND_APROBACION":
-                return new PendAprobacion();
+                return new PendingApproval();
             case "PUBLICADO":
-                return new Publicado();
+                return new Published();
             default:
                 throw new IllegalArgumentException("Estado desconocido en la base: " + valor);
         }

@@ -6,7 +6,7 @@ import ar.edu.unnoba.pm2026.courses.dto.InstructorCoursesResponseDTO;
 import ar.edu.unnoba.pm2026.courses.model.Instructor;
 import ar.edu.unnoba.pm2026.courses.service.AuthenticathionService;
 import ar.edu.unnoba.pm2026.courses.service.AuthorizationService;
-import ar.edu.unnoba.pm2026.courses.service.CursoService;
+import ar.edu.unnoba.pm2026.courses.service.CourseService;
 import ar.edu.unnoba.pm2026.courses.service.InstructorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,16 +27,16 @@ public class InstructorResource {
     private final InstructorService instructorService;
     private final AuthenticathionService authenticathionService;
     private final AuthorizationService authorizationService;
-    private final CursoService cursoService;
+    private final CourseService courseService;
 
     public InstructorResource(InstructorService instructorService,
                               AuthenticathionService authenticathionService,
                               AuthorizationService authorizationService,
-                              CursoService cursoService) {
+                              CourseService courseService) {
         this.instructorService = instructorService;
         this.authenticathionService = authenticathionService;
         this.authorizationService = authorizationService;
-        this.cursoService = cursoService;
+        this.courseService = courseService;
     }
 
     @PostMapping
@@ -73,7 +73,7 @@ public class InstructorResource {
         try {
             Instructor instructor = authorizationService.authorize(token);
             List<InstructorCoursesResponseDTO> courses =
-                    cursoService.getCoursesByInstructorId(instructor.getId());
+                    courseService.getCoursesByInstructorId(instructor.getId());
             return ResponseEntity.status(HttpStatus.OK).body(courses);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
