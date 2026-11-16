@@ -32,7 +32,7 @@ public class Course {
     @Column(name = "cupo_maximo_alumnos")
     private int cupoMaximoAlumnos;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ApprovalRequest> solicitudesAprobacion = new ArrayList<>();
 
     @Convert(converter = CourseStateConverter.class)
@@ -46,7 +46,7 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private Speciality especialidad;
 
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> inscripciones = new ArrayList<>();
 
     public Course() {

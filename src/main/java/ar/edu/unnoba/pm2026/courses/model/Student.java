@@ -24,7 +24,7 @@ public class Student {
     @Column(name = "contrasena", nullable = false)
     private String contrasenia;
 
-    @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> inscripciones = new ArrayList<>();
 
     public Student() {

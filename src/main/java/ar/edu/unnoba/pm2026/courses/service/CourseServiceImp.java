@@ -11,9 +11,12 @@ import java.util.List;
 @Service
 public class CourseServiceImp implements CourseService {
     private CourseRepository courseRepository;
+    public CourseServiceImp(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
     @Override
     public List<InstructorCoursesResponseDTO> getCoursesByInstructorId(Long instructorId) {
-      List<Course> courses = courseRepository.findByInstructorId(instructorId);
+      List<Course> courses = courseRepository.findByCreadorId(instructorId);
         List<InstructorCoursesResponseDTO> response = new ArrayList<>();
       for(Course course : courses){
           InstructorCoursesResponseDTO dto= new InstructorCoursesResponseDTO(course.getId(), course.getTitulo(), course.getDescripcion());

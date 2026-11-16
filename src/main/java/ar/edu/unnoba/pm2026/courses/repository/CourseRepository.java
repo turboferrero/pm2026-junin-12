@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course,Long>{
-    public List<Course> findByInstructorId(Long instructorId);
+    public List<Course> findByCreadorId(Long creadorId);
 }
