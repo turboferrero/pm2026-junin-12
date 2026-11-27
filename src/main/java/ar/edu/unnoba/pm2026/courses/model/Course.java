@@ -194,4 +194,7 @@ public class Course {
     public void setInscripciones(List<Enrollment> inscripciones) {
         this.inscripciones = inscripciones;
     }
+    public String getEmailInstructor() {
+        return getCreador() != null ? getCreador().getEmail() : null;
+    }
 }

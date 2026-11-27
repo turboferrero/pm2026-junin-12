@@ -58,7 +58,6 @@ public class InstructorResource {
         Instructor instructor = new Instructor();
         instructor.setEmail(dto.email());
         instructor.setContrasenia(dto.password());
-
         try {
             String token = authenticathionService.authenticate(instructor);
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("token", token));

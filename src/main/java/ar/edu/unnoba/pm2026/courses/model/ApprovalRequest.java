@@ -72,4 +72,36 @@ public class ApprovalRequest {
 
     public State getEstado() { return state; }
     public void setEstado(State state) { this.state = state; }
+    public Long getCursoId() {
+        return this.course.getId();
+    }
+
+    public String getCursoTitulo() {
+        return this.course.getTitulo();
+    }
+
+    public String getInstructorEmail() {
+        return this.course.getEmailInstructor();
+    }
+    public String getStateName() {
+        return getEstado() != null ? getEstado().name() : null;
+    }
+
+    public void resolve(String status, String comment) {
+        if (getEstado() != State.SUBMITTED) {
+            throw new IllegalStateException("La solicitud ya fue resuelta");
+        }
+
+        if ("APPROVED".equalsIgnoreCase(status)) {
+            this.state = State.APPROVED;
+            getCurso().aprobar();
+        } else if ("REJECTED".equalsIgnoreCase(status)) {
+            this.state = State.REJECTED;
+            getCurso().rechazar();
+        } else {
+            throw new IllegalArgumentException("Estado inválido: debe ser APPROVED o REJECTED");
+        }
+
+        this.comentarioAdmin = comment;
+    }
 }

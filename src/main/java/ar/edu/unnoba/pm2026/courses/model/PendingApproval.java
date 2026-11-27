@@ -18,4 +18,5 @@ public class PendingApproval extends CourseState {
     public void rechazar() {
         course.setEstadoCurso(new Draft(course));
     }
+
 }
