@@ -13,8 +13,9 @@ public class AuthenticationServiceImp implements AuthenticathionService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil tokenUtil;
 
-    public AuthenticationServiceImp(InstructorService instructorService, PasswordEncoder passwordEncoder, JwtTokenUtil tokenUtil) {
+    public AuthenticationServiceImp(InstructorService instructorService, AdministratorService administratorService, PasswordEncoder passwordEncoder, JwtTokenUtil tokenUtil) {
         this.instructorService = instructorService;
+        this.administratorService = administratorService;
         this.passwordEncoder = passwordEncoder;
         this.tokenUtil = tokenUtil;
     }
