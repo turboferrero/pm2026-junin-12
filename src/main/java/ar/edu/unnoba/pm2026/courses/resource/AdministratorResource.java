@@ -2,10 +2,7 @@ package ar.edu.unnoba.pm2026.courses.resource;
 
 import ar.edu.unnoba.pm2026.courses.dto.*;
 import ar.edu.unnoba.pm2026.courses.model.Administrator;
-import ar.edu.unnoba.pm2026.courses.service.AdministratorService;
-import ar.edu.unnoba.pm2026.courses.service.ApprovalRequestService;
-import ar.edu.unnoba.pm2026.courses.service.AuthenticathionService;
-import ar.edu.unnoba.pm2026.courses.service.AuthorizationService;
+import ar.edu.unnoba.pm2026.courses.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +18,14 @@ public class AdministratorResource {
     private final AuthorizationService authorizationService;
     private final AuthenticathionService authenticathionService;
     private final ApprovalRequestService approvalRequestService;
+    private final CourseService courseService;
 
-    public AdministratorResource(AdministratorService administratorService, AuthorizationService authorizationService, AuthenticathionService authenticathionService, ApprovalRequestService approvalRequestService) {
+    public AdministratorResource(AdministratorService administratorService, CourseService courseService, AuthorizationService authorizationService, AuthenticathionService authenticathionService, ApprovalRequestService approvalRequestService) {
         this.administratorService = administratorService;
         this.authorizationService = authorizationService;
         this.authenticathionService = authenticathionService;
         this.approvalRequestService = approvalRequestService;
+        this.courseService= courseService;
     }
 
     @PostMapping("/accounts")
@@ -166,4 +165,66 @@ public class AdministratorResource {
     }
     }
 
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<?> courseApprovedList(@RequestHeader(value = "Authorization", required = false) String token){
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Administrator authenticatedAdmin;
+        try {
+            authenticatedAdmin = authorizationService.authorizeAdmin(token);
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        List<CourseResponseDTO> approvedCourses = courseService.getApprovedCourses();
+        return ResponseEntity.status(HttpStatus.OK).body(approvedCourses);
+    }
+
+    @GetMapping("/courses/{id}/students")
+    public ResponseEntity<?> enrolledStudents(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("id") Long id) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Administrator authenticatedAdmin;
+        try {
+            authenticatedAdmin = authorizationService.authorizeAdmin(token);
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+            List<EnrolledStudentResponseDTO> enrolledStudents = courseService.getEnrolledStudents(id);
+            return ResponseEntity.status(HttpStatus.OK).body(enrolledStudents);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<?> courseDetails(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("id") Long id) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Administrator authenticatedAdmin;
+        try {
+            authenticatedAdmin = authorizationService.authorizeAdmin(token);
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
+            CourseDetailResponseDTO courseDetail = courseService.getCourseDetail(id);
+            return ResponseEntity.status(HttpStatus.OK).body(courseDetail);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

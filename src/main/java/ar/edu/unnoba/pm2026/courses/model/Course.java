@@ -197,4 +197,24 @@ public class Course {
     public String getEmailInstructor() {
         return getCreador() != null ? getCreador().getEmail() : null;
     }
+    public Long getInstructorId() {
+        return getCreador() != null ? getCreador().getId() : null;
+    }
+
+    public String getInstructorNombreCompleto() {
+        return getCreador() != null
+                ? getCreador().getNombre() + " " + getCreador().getApellido()
+                : null;
+    }
+
+    public String getEspecialidadNombre(){
+        return getEspecialidad().name();
+    }
+    public int getCantidadInscriptos() {
+        return getInscripciones() != null ? getInscripciones().size() : 0;
+    }
+
+    public String getEstadoNombre() {
+        return getEstadoCurso() != null ? getEstadoNombre().getClass().getSimpleName() : null;
+    }
 }

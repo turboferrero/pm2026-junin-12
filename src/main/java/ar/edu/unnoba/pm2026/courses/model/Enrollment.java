@@ -55,4 +55,18 @@ public class Enrollment {
 
     public BigDecimal getPrecioFinal() { return precioFinal; }
     public void setPrecioFinal(BigDecimal precioFinal) { this.precioFinal = precioFinal; }
+
+    public Long getEstudianteId() {
+        return getEstudiante() != null ? getEstudiante().getId(): null;
+    }
+
+    public String getEstudianteNombre() {
+        return getEstudiante() != null ? getEstudiante().getNombre() : null;
+    }
+    public String getEstudianteApellido() {
+        return getEstudiante() != null ? getEstudiante().getApellido() : null;
+    }
+    public String getEstudianteEmail() {
+        return getEstudiante() != null ? getEstudiante().getEmail() : null;
+    }
 }
