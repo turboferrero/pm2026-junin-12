@@ -18,11 +18,11 @@ public class Enrollment {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idestudiante", nullable = false)
-    private Student student;
+    private Estudiante estudiante;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idcurso", nullable = false)
-    private Course course;
+    private Curso curso;
 
     @Column(name = "fecha_inscripcion", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -34,9 +34,9 @@ public class Enrollment {
     public Enrollment() {
     }
 
-    public Enrollment(Student student, Course course, Date fechaInscripcion, BigDecimal precioFinal) {
-        this.student = student;
-        this.course = course;
+    public Enrollment(Estudiante estudiante, Curso curso, Date fechaInscripcion, BigDecimal precioFinal) {
+        this.estudiante = estudiante;
+        this.curso = curso;
         this.fechaInscripcion = fechaInscripcion;
         this.precioFinal = precioFinal;
     }
@@ -44,29 +44,15 @@ public class Enrollment {
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
-    public Student getEstudiante() { return student; }
-    public void setEstudiante(Student student) { this.student = student; }
+    public Estudiante getEstudiante() { return estudiante; }
+    public void setEstudiante(Estudiante estudiante) { this.estudiante = estudiante; }
 
-    public Course getCurso() { return course; }
-    public void setCurso(Course course) { this.course = course; }
+    public Curso getCurso() { return curso; }
+    public void setCurso(Curso curso) { this.curso = curso; }
 
     public Date getFechaInscripcion() { return fechaInscripcion; }
     public void setFechaInscripcion(Date fechaInscripcion) { this.fechaInscripcion = fechaInscripcion; }
 
     public BigDecimal getPrecioFinal() { return precioFinal; }
     public void setPrecioFinal(BigDecimal precioFinal) { this.precioFinal = precioFinal; }
-
-    public Long getEstudianteId() {
-        return getEstudiante() != null ? getEstudiante().getId(): null;
-    }
-
-    public String getEstudianteNombre() {
-        return getEstudiante() != null ? getEstudiante().getNombre() : null;
-    }
-    public String getEstudianteApellido() {
-        return getEstudiante() != null ? getEstudiante().getApellido() : null;
-    }
-    public String getEstudianteEmail() {
-        return getEstudiante() != null ? getEstudiante().getEmail() : null;
-    }
 }

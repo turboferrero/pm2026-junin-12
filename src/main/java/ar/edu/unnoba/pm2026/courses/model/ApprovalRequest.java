@@ -28,20 +28,20 @@ public class ApprovalRequest {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private State state;
+    private Estado estado;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "idcurso", nullable = false)
-    private Course course;
+    private Curso curso;
 
     public ApprovalRequest() {
     }
 
-    public ApprovalRequest(long id, Course course, String comentarioInstructor, State state, String comentarioAdmin, Date fechaResolucion, Date fechaSolicitud) {
+    public ApprovalRequest(long id, Curso curso, String comentarioInstructor, Estado estado, String comentarioAdmin, Date fechaResolucion, Date fechaSolicitud) {
         this.id = id;
-        this.course = course;
+        this.curso = curso;
         this.comentarioInstructor = comentarioInstructor;
-        this.state = state;
+        this.estado = estado;
         this.comentarioAdmin = comentarioAdmin;
         this.fechaResolucion = fechaResolucion;
         this.fechaSolicitud = fechaSolicitud;
@@ -62,46 +62,14 @@ public class ApprovalRequest {
     public String getComentarioAdmin() { return comentarioAdmin; }
     public void setComentarioAdmin(String comentarioAdmin) { this.comentarioAdmin = comentarioAdmin; }
 
-    public Course getCurso() {
-        return course;
+    public Curso getCurso() {
+        return curso;
     }
 
-    public void setCurso(Course course) {
-        this.course = course;
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
 
-    public State getEstado() { return state; }
-    public void setEstado(State state) { this.state = state; }
-    public Long getCursoId() {
-        return this.course.getId();
-    }
-
-    public String getCursoTitulo() {
-        return this.course.getTitulo();
-    }
-
-    public String getInstructorEmail() {
-        return this.course.getEmailInstructor();
-    }
-    public String getStateName() {
-        return getEstado() != null ? getEstado().name() : null;
-    }
-
-    public void resolve(String status, String comment) {
-        if (getEstado() != State.SUBMITTED) {
-            throw new IllegalStateException("La solicitud ya fue resuelta");
-        }
-
-        if ("APPROVED".equalsIgnoreCase(status)) {
-            this.state = State.APPROVED;
-            getCurso().aprobar();
-        } else if ("REJECTED".equalsIgnoreCase(status)) {
-            this.state = State.REJECTED;
-            getCurso().rechazar();
-        } else {
-            throw new IllegalArgumentException("Estado inválido: debe ser APPROVED o REJECTED");
-        }
-
-        this.comentarioAdmin = comment;
-    }
+    public Estado getEstado() { return estado; }
+    public void setEstado(Estado estado) { this.estado = estado; }
 }
